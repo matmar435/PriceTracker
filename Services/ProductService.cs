@@ -1,4 +1,5 @@
 
+using Product_Price_Tracker.DTO;
 using Product_Price_Tracker.Entities;
 
 public class ProductService
@@ -12,4 +13,20 @@ public class ProductService
 
     public Task<List<Product>> GetAll()
         => _repo.GetAllAsync();
+
+    public async Task CreateAsync(CreateProductDto dto)
+    {
+        var product = new Product
+        {
+            Id = Guid.NewGuid(),
+            Name = dto.Name,
+            Url = dto.Url,
+            TargetPrice = dto.TargetPrice,
+            CurrentPrice = 0,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _repo.AddAsync(product);
+        await _repo.SaveChangesAsync();
+    }
 }

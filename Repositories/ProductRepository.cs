@@ -15,4 +15,14 @@ public class ProductRepository : IProductRepository
 
     public async Task<List<Product>> GetAllAsync()
         => await _context.Products.ToListAsync();
+
+    public async Task AddAsync(Product product)
+    {
+        await _context.Products.AddAsync(product);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }
