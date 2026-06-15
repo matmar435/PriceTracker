@@ -1,0 +1,6 @@
+@Product_Price_Tracker_HostAddress = http://localhost:5155
+
+GET {{Product_Price_Tracker_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
