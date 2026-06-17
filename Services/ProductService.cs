@@ -29,4 +29,9 @@ public class ProductService
         await _repo.AddAsync(product);
         await _repo.SaveChangesAsync();
     }
+
+    public async Task<Product?> GetByIdAsync(Guid id)
+    {
+        return await _repo.GetByIdAsync(id);
+    }
 }

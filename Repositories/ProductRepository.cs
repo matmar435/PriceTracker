@@ -25,4 +25,9 @@ public class ProductRepository : IProductRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<Product?> GetByIdAsync(Guid id)
+    {
+        return await _context.Products.FindAsync(id);
+    }
 }
