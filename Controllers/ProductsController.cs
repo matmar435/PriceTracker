@@ -36,9 +36,22 @@ public class ProductsController : ControllerBase
 
         if (product is null)
         {
-            return NotFound();
+            return NotFound($"Product with id {id} not found.");
         }
 
         return Ok(product);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var deleted = await _service.DeleteAsync(id);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }

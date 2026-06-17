@@ -30,4 +30,10 @@ public class ProductRepository : IProductRepository
     {
         return await _context.Products.FindAsync(id);
     }
+
+    public Task DeleteAsync(Product product)
+    {
+        _context.Products.Remove(product);
+        return Task.CompletedTask;
+    }
 }

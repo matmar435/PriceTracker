@@ -34,4 +34,19 @@ public class ProductService
     {
         return await _repo.GetByIdAsync(id);
     }
+
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var product = await _repo.GetByIdAsync(id);
+
+        if (product is null)
+        {
+            return false;
+        }
+
+        await _repo.DeleteAsync(product);
+        await _repo.SaveChangesAsync();
+
+        return true;
+    }
 }
