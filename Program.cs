@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Product_Price_Tracker.Data;
+using Product_Price_Tracker.Provider;
+using Product_Price_Tracker.Provider.Interfaces;
 using Product_Price_Tracker.Services;
 using Product_Price_Tracker.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddScoped<IPriceProvider, MockPriceProvider>();
 builder.Services.AddScoped<IPriceScraperService, PriceScraperService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductService>();
