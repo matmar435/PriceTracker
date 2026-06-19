@@ -13,5 +13,8 @@
         public decimal CurrentPrice { get; set; }
 
         public DateTime CreatedAt { get; set; }
+        public ICollection<PriceHistory> PriceHistory { get; set; }
+             = new List<PriceHistory>();
+
     }
 }

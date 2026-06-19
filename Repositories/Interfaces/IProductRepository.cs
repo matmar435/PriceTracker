@@ -9,4 +9,5 @@ public interface IProductRepository
     Task SaveChangesAsync();
     Task<Product?> GetByIdAsync(Guid id);
     Task DeleteAsync(Product product);
+    Task AddPriceHistoryAsync(PriceHistory history);
 }

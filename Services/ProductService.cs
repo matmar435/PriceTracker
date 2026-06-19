@@ -1,4 +1,5 @@
 
+using Microsoft.EntityFrameworkCore;
 using Product_Price_Tracker.DTO;
 using Product_Price_Tracker.Entities;
 using Product_Price_Tracker.Provider.Interfaces;
@@ -30,17 +31,30 @@ public class ProductService
 
     public async Task CreateAsync(CreateProductDto dto)
     {
+        var currentPrice = await _priceProvider.GetCurrentPriceAsync(dto.Url) ?? 0;
+
         var product = new Product
         {
             Id = Guid.NewGuid(),
             Name = dto.Name,
             Url = dto.Url,
             TargetPrice = dto.TargetPrice,
-            CurrentPrice = await _priceProvider.GetCurrentPriceAsync(dto.Url) ?? 0,
+            CurrentPrice =currentPrice,
             CreatedAt = DateTime.UtcNow
         };
 
         await _repo.AddAsync(product);
+        await _repo.SaveChangesAsync();
+
+        var history = new PriceHistory
+        {
+            Id = Guid.NewGuid(),
+            ProductId = product.Id,
+            Price = currentPrice,
+            CheckedAt = DateTime.UtcNow
+        };
+
+        await _repo.AddPriceHistoryAsync(history);
         await _repo.SaveChangesAsync();
     }
 

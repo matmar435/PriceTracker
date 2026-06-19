@@ -36,4 +36,9 @@ public class ProductRepository : IProductRepository
         _context.Products.Remove(product);
         return Task.CompletedTask;
     }
+
+    public async Task AddPriceHistoryAsync(PriceHistory history)
+    {
+        await _context.PriceHistories.AddAsync(history);
+    }
 }
