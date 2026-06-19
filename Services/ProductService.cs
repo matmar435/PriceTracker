@@ -11,8 +11,18 @@ public class ProductService
         _repo = repo;
     }
 
-    public Task<List<Product>> GetAll()
-        => _repo.GetAllAsync();
+    public async Task<List<ProductDto>> GetAllAsync()
+    {
+        var products = await _repo.GetAllAsync();
+
+        return products.Select(p => new ProductDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            CurrentPrice = p.CurrentPrice,
+            TargetPrice = p.TargetPrice
+        }).ToList();
+    }
 
     public async Task CreateAsync(CreateProductDto dto)
     {
@@ -30,9 +40,22 @@ public class ProductService
         await _repo.SaveChangesAsync();
     }
 
-    public async Task<Product?> GetByIdAsync(Guid id)
+    public async Task<ProductDto> GetByIdAsync(Guid id)
     {
-        return await _repo.GetByIdAsync(id);
+        var product = await _repo.GetByIdAsync(id);
+
+        if (product is null)
+        {
+            return null;
+        }
+
+        return new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            CurrentPrice = product.CurrentPrice,
+            TargetPrice = product.TargetPrice
+        };
     }
 
     public async Task<bool> DeleteAsync(Guid id)
