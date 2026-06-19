@@ -1,14 +1,17 @@
 
 using Product_Price_Tracker.DTO;
 using Product_Price_Tracker.Entities;
+using Product_Price_Tracker.Services.Interfaces;
 
 public class ProductService
 {
     private readonly IProductRepository _repo;
+    private readonly IPriceScraperService _priceScraper;
 
-    public ProductService(IProductRepository repo)
+    public ProductService(IProductRepository repo, IPriceScraperService priceScraper)
     {
         _repo = repo;
+        _priceScraper = priceScraper;
     }
 
     public async Task<List<ProductDto>> GetAllAsync()
@@ -32,7 +35,7 @@ public class ProductService
             Name = dto.Name,
             Url = dto.Url,
             TargetPrice = dto.TargetPrice,
-            CurrentPrice = 0,
+            CurrentPrice = await _priceScraper.GetPriceAsync(dto.Url) ?? 0,
             CreatedAt = DateTime.UtcNow
         };
 
