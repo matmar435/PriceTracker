@@ -90,4 +90,15 @@ public class ProductService
 
         return true;
     }
+
+    public async Task<List<PriceHistoryDto>> GetPriceHistoryAsync(Guid productId)
+    {
+        var history = await _repo.GetPriceHistoryAsync(productId);
+
+        return history.Select(h => new PriceHistoryDto
+        {
+            Price = h.Price,
+            CheckedAt = h.CheckedAt
+        }).ToList();
+    }
 }

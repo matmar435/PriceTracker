@@ -41,4 +41,12 @@ public class ProductRepository : IProductRepository
     {
         await _context.PriceHistories.AddAsync(history);
     }
+
+    public async Task<List<PriceHistory>> GetPriceHistoryAsync(Guid productId)
+    {
+        return await _context.PriceHistories
+            .Where(p => p.ProductId == productId)
+            .OrderByDescending(p => p.CheckedAt)
+            .ToListAsync();
+    }
 }

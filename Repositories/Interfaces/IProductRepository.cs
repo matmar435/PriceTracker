@@ -10,4 +10,5 @@ public interface IProductRepository
     Task<Product?> GetByIdAsync(Guid id);
     Task DeleteAsync(Product product);
     Task AddPriceHistoryAsync(PriceHistory history);
+    Task<List<PriceHistory>> GetPriceHistoryAsync(Guid productId);
 }

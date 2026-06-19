@@ -54,4 +54,12 @@ public class ProductsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("{id:guid}/history")]
+    public async Task<IActionResult> GetHistory(Guid id)
+    {
+        var history = await _service.GetPriceHistoryAsync(id);
+
+        return Ok(history);
+    }
 }
